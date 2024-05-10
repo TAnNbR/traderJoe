@@ -1,0 +1,1051 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/home/smx/traderJoe/contracts/CalcuEncode.sol": {
+      "lastModificationDate": 1714540727373,
+      "contentHash": "e819f0ca4d3173872f680ff251fafdc3",
+      "sourceName": "contracts/CalcuEncode.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.8.0"
+      ],
+      "artifacts": [
+        "CalcuEncode"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/ERC1155/Address.sol": {
+      "lastModificationDate": 1714540727383,
+      "contentHash": "798b1b3f293f0bdd3d35adb051a27ee7",
+      "sourceName": "contracts/ERC1155/Address.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.1"
+      ],
+      "artifacts": [
+        "Address"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/ERC1155/ERC1155.sol": {
+      "lastModificationDate": 1714541936072,
+      "contentHash": "54cbee7a22d74f1585234e97dfd22624",
+      "sourceName": "contracts/ERC1155/ERC1155.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC1155.sol",
+        "./IERC1155Receiver.sol",
+        "./IERC1155MetadataURI.sol",
+        "./Address.sol",
+        "./String.sol",
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC1155"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/ERC1155/IERC1155Receiver.sol": {
+      "lastModificationDate": 1714540727393,
+      "contentHash": "43348175601396969568bd4e17399605",
+      "sourceName": "contracts/ERC1155/IERC1155Receiver.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155Receiver"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/ERC1155/IERC1155MetadataURI.sol": {
+      "lastModificationDate": 1714540727393,
+      "contentHash": "86a63e9a9bc3de9fd225608869cdd67d",
+      "sourceName": "contracts/ERC1155/IERC1155MetadataURI.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC1155.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155MetadataURI"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/ERC1155/String.sol": {
+      "lastModificationDate": 1714540727403,
+      "contentHash": "49e2d2bf2aa7b074b4bd05b315d0582f",
+      "sourceName": "contracts/ERC1155/String.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.21"
+      ],
+      "artifacts": [
+        "Strings"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/ERC1155/IERC165.sol": {
+      "lastModificationDate": 1714540727393,
+      "contentHash": "0338433702e8f2575a4a5e02efe3b368",
+      "sourceName": "contracts/ERC1155/IERC165.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC165"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/ERC1155/IERC1155.sol": {
+      "lastModificationDate": 1714540727393,
+      "contentHash": "abfd819b8651dad44726e2937ce6f56d",
+      "sourceName": "contracts/ERC1155/IERC1155.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/JoeSwapManager.sol": {
+      "lastModificationDate": 1715046637396,
+      "contentHash": "fcf5afba57051b01f47141094e442625",
+      "sourceName": "contracts/JoeSwapManager.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./JoeSwapPool.sol",
+        "./interfaces/IERC1155.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "JoeSwapManager"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/JoeSwapPool.sol": {
+      "lastModificationDate": 1715083177843,
+      "contentHash": "1403625e8fbb45cc774a7c1b1a1267d1",
+      "sourceName": "contracts/JoeSwapPool.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./lib/Bins.sol",
+        "./lib/Position.sol",
+        "./lib/Indextree.sol",
+        "./lib/FixedPoint96.sol",
+        "./lib/TickMath.sol",
+        "./lib/Math.sol",
+        "./lib/SwapMath.sol",
+        "./interfaces/IJoeSwapMintCallback.sol",
+        "./interfaces/IERC1155Receiver.sol",
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "JoeSwapPool"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/interfaces/IERC1155.sol": {
+      "lastModificationDate": 1714540727403,
+      "contentHash": "e3991d707a321294944c317ad6f8b2cf",
+      "sourceName": "contracts/interfaces/IERC1155.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/lib/Bins.sol": {
+      "lastModificationDate": 1714981510250,
+      "contentHash": "4ad873021aa3afe6eb8b8f44a2bdbfa4",
+      "sourceName": "contracts/lib/Bins.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "Bins"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/lib/Position.sol": {
+      "lastModificationDate": 1714543309872,
+      "contentHash": "f0976864f32ebd5d6e08e25f732e1ad1",
+      "sourceName": "contracts/lib/Position.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "Position"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/lib/FixedPoint96.sol": {
+      "lastModificationDate": 1714540727413,
+      "contentHash": "c541acff32f0cb067074778715e40cbd",
+      "sourceName": "contracts/lib/FixedPoint96.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "FixedPoint96"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/lib/TickMath.sol": {
+      "lastModificationDate": 1715046389416,
+      "contentHash": "c9817382d54cf451f5526a828963ca73",
+      "sourceName": "contracts/lib/TickMath.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "TickMath"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/lib/Indextree.sol": {
+      "lastModificationDate": 1714979863930,
+      "contentHash": "1321206170f85367ddab2d350eb92f6b",
+      "sourceName": "contracts/lib/Indextree.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./BitMath.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "Indextree"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/lib/Math.sol": {
+      "lastModificationDate": 1715046923506,
+      "contentHash": "7514e469727fc96c0d04269c089a6f34",
+      "sourceName": "contracts/lib/Math.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "prb-math/PRBMath.sol",
+        "./FixedPoint96.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "Math"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/interfaces/IJoeSwapMintCallback.sol": {
+      "lastModificationDate": 1714540727413,
+      "contentHash": "8ef49bb215d9935d57c885dc311f0219",
+      "sourceName": "contracts/interfaces/IJoeSwapMintCallback.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "IJoeSwapMintCallback"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/interfaces/IERC1155Receiver.sol": {
+      "lastModificationDate": 1714540727403,
+      "contentHash": "43348175601396969568bd4e17399605",
+      "sourceName": "contracts/interfaces/IERC1155Receiver.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155Receiver"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/lib/BitMath.sol": {
+      "lastModificationDate": 1714979737680,
+      "contentHash": "c72852a7672ed364be472461b5eaafde",
+      "sourceName": "contracts/lib/BitMath.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "BitMath"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/interfaces/IERC165.sol": {
+      "lastModificationDate": 1714540727403,
+      "contentHash": "0338433702e8f2575a4a5e02efe3b368",
+      "sourceName": "contracts/interfaces/IERC165.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC165"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/lib/SwapMath.sol": {
+      "lastModificationDate": 1715049688824,
+      "contentHash": "386c314befe83d9df9c6f706b8886839",
+      "sourceName": "contracts/lib/SwapMath.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Math.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "SwapMath"
+      ]
+    },
+    "/home/smx/traderJoe/prb-math/PRBMath.sol": {
+      "lastModificationDate": 1714540727433,
+      "contentHash": "2a4285786ce62cd5a6d2a540cc78b5d3",
+      "sourceName": "prb-math/PRBMath.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.8.4"
+      ],
+      "artifacts": [
+        "PRBMath"
+      ]
+    },
+    "/home/smx/traderJoe/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1714540682483,
+      "contentHash": "896f68942c3a20e9ae3c3c5bfd3add54",
+      "sourceName": "hardhat/console.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "console"
+      ]
+    }
+  }
+}
