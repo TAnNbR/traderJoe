@@ -1,48 +1,6 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/home/smx/traderJoe/contracts/CalcuEncode.sol": {
-      "lastModificationDate": 1714540727373,
-      "contentHash": "e819f0ca4d3173872f680ff251fafdc3",
-      "sourceName": "contracts/CalcuEncode.sol",
-      "solcConfig": {
-        "version": "0.8.24",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 200,
-            "details": {
-              "yulDetails": {
-                "optimizerSteps": "u"
-              }
-            }
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.8.0"
-      ],
-      "artifacts": [
-        "CalcuEncode"
-      ]
-    },
     "/home/smx/traderJoe/contracts/ERC1155/Address.sol": {
       "lastModificationDate": 1714540727383,
       "contentHash": "798b1b3f293f0bdd3d35adb051a27ee7",
@@ -396,8 +354,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/JoeSwapPool.sol": {
-      "lastModificationDate": 1715083177843,
-      "contentHash": "1403625e8fbb45cc774a7c1b1a1267d1",
+      "lastModificationDate": 1715743647886,
+      "contentHash": "329e4dfc4d1f3f36a7a329e5eac4e4f0",
       "sourceName": "contracts/JoeSwapPool.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -661,8 +619,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/lib/Indextree.sol": {
-      "lastModificationDate": 1714979863930,
-      "contentHash": "1321206170f85367ddab2d350eb92f6b",
+      "lastModificationDate": 1715741701406,
+      "contentHash": "4df32f40414c39e4a7161ea12f7e6264",
       "sourceName": "contracts/lib/Indextree.sol",
       "solcConfig": {
         "version": "0.8.24",

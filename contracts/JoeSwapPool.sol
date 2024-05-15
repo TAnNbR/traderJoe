@@ -15,6 +15,7 @@ import "./interfaces/IERC1155Receiver.sol";
 import "hardhat/console.sol";
 
 contract JoeSwapPool {
+    error LiquidityNotEnough();
 
     using Bins for mapping(int32=>Bins.Info) ;
     using Position for mapping(bytes32=>Position.Info);
@@ -217,65 +218,132 @@ contract JoeSwapPool {
             amountBeenIn: 0
         });
         
-        while (expectedAmount>0 && state.pi<=limitPrice) {
+        /////////////////
+        //    while    //
+        /////////////////
+        while (expectedAmount>0 && ( zeroforone ? state.pi>=limitPrice : state.pi<=limitPrice )) {
             console.log(); // debug
             console.log("           [DEBUG]: ************* round ***********"); // debug
+
+            bool theEdgeBin = bins[state.bin].initialized;
+            if(!theEdgeBin){
+                break;
+            }
 
             Stepstate memory step;
             step.startPrice=state.pi;
 
             uint256 pricePoint=step.startPrice;
             int32 binPoint=state.bin;
-            
+ 
             // 寻找下一个Initialized的bin
             int32 _nextBin;
             bool _forSure;
-            while (pricePoint<=limitPrice) {
-                console.log("           [DEBUG]: search execute !"); // debug
-                // console.log(uint256 p0); 需要转换成uint256来打印
-                console.log("           [DEBUG]:",uint256(int256(binPoint))); // debug
-                console.log("           [DEBUG]:",pricePoint); // debug
+            
+            if(zeroforone){
+            /////////////////////////
+            //    while : 流出 y   //
+            ////////////////////////
+                while (pricePoint>=limitPrice) {
+                    console.log("           [DEBUG]: ******** search execute *******"); // debug
+                    console.log("           [DEBUG]:",uint256(int256(binPoint))); // debug
+                    console.log("           [DEBUG]:",pricePoint); // debug
 
-                (_nextBin,_forSure)=indextree.nextInitializedBinWithinOneWord(binPoint,1,zeroforone);
-                pricePoint=TickMath.getSqrtRatioAtTick(int24(_nextBin-(1<<23)));
+                    (_nextBin,_forSure)=indextree.nextInitializedBinWithinOneWord(binPoint,1,zeroforone);
+                    uint256 nextPricePoint=TickMath.getSqrtRatioAtTick(int24(_nextBin-(1<<23)));
+                    
+                    console.log("           [DEBUG]: nextBin = ",uint256(int256(_nextBin))); // debug
+                    console.log("           [DEBUG]: nextPricePoint = ",nextPricePoint); // debug
 
-                // 分两种情况、三种位置讨论
-                if(_forSure){
-                    if(pricePoint>limitPrice){
-                        console.log("           [DEBUG]: Sure: pricePoint>limitPrice"); // debug
-                        break;
-                    }else if(pricePoint==limitPrice){
-                        console.log("           [DEBUG]: Sure: pricePoint==limitPrice"); // debug
-                        binPoint=_nextBin;
-                        break;
-                    }else{
-                        binPoint=_nextBin;
-                    }
-                }else {
-                    if(pricePoint<limitPrice){
-                        binPoint=_nextBin;
-                    }else{
-                        console.log("           [DEBUG]: Not Sure: pricePoint>=limitPrice"); // debug
-                        break;
+                    // require(_nextBin==8397125,"!=8397125"); 
+
+                    // 分两种情况、三种位置讨论
+                    if(_forSure){
+                        if(nextPricePoint<limitPrice){
+                            console.log("           [DEBUG]: Sure: pricePoint<limitPrice"); // debug
+                            break;
+                        }else if(nextPricePoint==limitPrice){
+                            console.log("           [DEBUG]: Sure: pricePoint==limitPrice"); // debug
+                            binPoint=_nextBin;
+                            pricePoint=nextPricePoint;
+                            break;
+                        }else{
+                            binPoint=_nextBin;
+                            pricePoint=nextPricePoint;
+                        }
+                    }else {
+                        if(nextPricePoint>=limitPrice){
+                            // 来到一个 Not Sure 的 bin : Initialized / Uninitialized
+                            binPoint=_nextBin;
+                            bool haveLiquidity = bins[binPoint].initialized;
+                            if(haveLiquidity){
+                                pricePoint=TickMath.getSqrtRatioAtTick(int24(binPoint-(1<<23)));
+                                break;
+
+                            }else {
+                                binPoint=_nextBin-1;
+                                pricePoint=TickMath.getSqrtRatioAtTick(int24(binPoint-(1<<23)));
+                            }
+                        }else{
+                            console.log("           [DEBUG]: Not Sure: pricePoint<limitPrice"); // debug
+                            // 这里不能直接 revert 打破整个循环，因为当前 bin 还可以在限价之内部分成交
+                            break;
+                        }
                     }
                 }
+            ////////////////////////////
+            //    end while : SMALL   //
+            ////////////////////////////
+
+            }else{
+            /////////////////////////
+            //    while : 流出 x   //
+            ////////////////////////
+                while (pricePoint<=limitPrice) {
+                    console.log("           [DEBUG]: ******** search execute *******"); // debug
+                    // console.log(uint256 p0); 需要转换成uint256来打印
+                    console.log("           [DEBUG]:",uint256(int256(binPoint))); // debug
+                    console.log("           [DEBUG]:",pricePoint); // debug
+
+                    (_nextBin,_forSure)=indextree.nextInitializedBinWithinOneWord(binPoint,1,zeroforone);
+                    uint256 nextPricePoint=TickMath.getSqrtRatioAtTick(int24(_nextBin-(1<<23)));
                 
-                binPoint=_nextBin;
+                    // console.log("           [DEBUG]:",_forSure); // debug
+                    // 分两种情况、三种位置讨论
+                    if(_forSure){
+                        if(nextPricePoint>limitPrice){
+                            console.log("           [DEBUG]: Sure: pricePoint>limitPrice"); // debug
+                            break;
+                        }else if(nextPricePoint==limitPrice){
+                            console.log("           [DEBUG]: Sure: pricePoint==limitPrice"); // debug
+                            binPoint=_nextBin;
+                            pricePoint=nextPricePoint;
+                            break;
+                        }else{
+                            binPoint=_nextBin;
+                            pricePoint=nextPricePoint;
+                        }
+                    }else {
+                        if(nextPricePoint<limitPrice){
+                            binPoint=_nextBin;
+                            pricePoint=nextPricePoint;
+                        }else{
+                            console.log("           [DEBUG]: Not Sure: pricePoint>=limitPrice"); // debug
+                            break;
+                        }
+                    }
 
-                // 下一个bin不是未知的 或 已经被初始化
-                // 即为找到了下一个初始化的bin
-                // if(_forSure || bins[_nextBin].initialized){
-                //     console.log("           [DEBUG]: search break !"); // debug
-                //     break;
-                // }
+                }
+            /////////////////////////////
+            //    end while : SMALL    //
+            /////////////////////////////
+            }
 
-                // if(binPoint>MAX_BIN) revert("liquidity not enough!");
-            } // while
-
+            console.log("           [DEBUG]: ********* out of search ********"); // debug
             // if(!_forSure) revert("nextStep not sure!");
 
             step.nextBin=binPoint;
-            step.nextPrice=TickMath.getSqrtRatioAtTick(int24(binPoint-(1<<23)));
+            step.nextPrice=pricePoint;
             step.forSure=_forSure;
 
             
@@ -295,49 +363,76 @@ contract JoeSwapPool {
              * });
              * ( state.pi , composition , step.amountIn , step.amountOut ) = SwapMath.computeSwap(computeSwapParams);
              */
-            console.log(
-                "           [DEBUG]:",
-                state.pi,
-                composition,
-                pricePoint
-            ); // debug
 
            ( 
-                state.pi,
+                state.pi, // 这个返回值其实多余了
                 composition, 
                 step.amountIn, 
                 step.amountOut 
             ) = SwapMath.computeSwap(
-                step.startPrice,
+                (step.startPrice>>FixedPoint96.RESOLUTION),
                 state.active_liquidity,
                 composition, // X96
-                step.nextPrice,
+                (step.nextPrice>>FixedPoint96.RESOLUTION),
                 zeroforone,
                 expectedAmount // X96
             );
+
+            // 是否要更新流动性
+            // 因为上面返回的state.pi不是X96，所以需要转化
+            // 但是如果直接转换会有精度损失，所以直接用精确的step.price赋值
+            if(state.pi == (step.nextPrice>>FixedPoint96.RESOLUTION) ){
+                state.pi=step.nextPrice;
+                state.bin=step.nextBin;
+                state.active_liquidity=bins[state.bin].liquidity;
+            }else {
+                state.pi=step.startPrice;
+            }
+
             expectedAmount-=step.amountOut;
             state.amountBeenOut+=step.amountOut;
             state.amountBeenIn+=step.amountIn;
-
-            // 是否要更新流动性
-            if(state.pi == step.nextPrice){
-                state.bin=step.nextBin;
-                state.active_liquidity=bins[state.bin].liquidity;
-            }
             
-        } // while
-
-        console.log(
-                "           [DEBUG]:",
+            console.log(
+                "           [DEBUG]: expectedAmount | state.amountBeenOut | state.amountBeenIn ",
+                expectedAmount,
+                state.amountBeenOut,
+                state.amountBeenIn
+            ); // debug
+            
+            console.log(
+                "           [DEBUG]: state.pi = ",   
                 state.pi,
+                "composition = ",
                 composition
             ); // debug
+
+        }
+        //////////////////////////
+        //    end while : BIG   //
+        //////////////////////////
+        
+        console.log(); // debug
+        console.log("           [DEBUG]: ********* out of round ********"); // debug
+        console.log(
+            "           [DEBUG]: state.pi = ",   
+            state.pi,
+            "composition = ",
+            composition
+        ); // debug
 
         liquidity=state.active_liquidity;    
         slot.bin=state.bin;
         slot.pi=state.pi;
         (amount0,amount1) = zeroforone ? (state.amountBeenIn,state.amountBeenOut) : (state.amountBeenOut,state.amountBeenIn);
-        // nextBin = state.bin;
+
+        console.log(
+            "           [DEBUG]: amount0 = ",
+            amount0,
+            "amount1 = ",
+            amount1
+        ); // debug
+
     }
     
     

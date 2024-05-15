@@ -40,7 +40,9 @@ library Indextree{
 
         if(lte){
             (int32 wordPos,uint8 bitPos)=position(compressed);
-            uint256 mask=(1<<bitPos)-1+(1<<bitPos);
+
+            // 这里可能存在bug，注释掉
+            uint256 mask=(1<<bitPos)-1; // +(1<<bitPos);
             uint256 masked =self[wordPos]&mask;
             
             initialized=(masked!=0);

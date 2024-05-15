@@ -219,10 +219,10 @@ describe("test Swap", function () {
     });
     
     
-    it("test swap",async function(){
+    it("test swap : need x",async function(){
         // 挂限价单部分成交
         // const sqrtPriceLimitX96 = BigNumber.from(5).mul(BigNumber.from(2).pow(96));
-        const sqrtPriceLimitX96 = BigNumber.from("189156513964411864089943343104");
+        let sqrtPriceLimitX96 = BigNumber.from("189156513964411864089943343104");
         console.log("           limitPrice= ",sqrtPriceLimitX96.toString());
         // console.log("           slot= ",await pool.slot());
 
@@ -237,20 +237,52 @@ describe("test Swap", function () {
             ['address', 'address', 'address'],
             [token0.address, token1.address, smx.address]
         );
-    
-        const amount = await pool.swap(
+        
+        const expectedAmount = BigNumber.from(313355).mul(BigNumber.from(2).pow(96));
+
+        await pool.swap(
             pool.address,
-            313355,
+            expectedAmount,
             sqrtPriceLimitX96,
             false,
             encodedCallbackData
         );
-        console.log("           amount=",amount.value.toString());
-        // console.log("           amount0=",amount0.toString());
-        // console.log("           amount1=",amount1.toString());
-        console.log("           slot= ",(await pool.slot()).toString());
-        
+
     });
+    
+    
+    it("test swap : need y",async function(){
+        // 挂限价单部分成交
+        // const sqrtPriceLimitX96 = BigNumber.from(5).mul(BigNumber.from(2).pow(96));
+        let sqrtPriceLimitX96 = BigNumber.from("108456325028528675187087900672");
+        console.log("           limitPrice= ",sqrtPriceLimitX96.toString());
+        // console.log("           slot= ",await pool.slot());
+
+        // 注意到 swap 的参数是 => bytes calldata data 是字节类型，而前面的mint里是结构体类型
+        const callbackData = {
+            token0: token0.address,
+            token1: token1.address,
+            payer: smx.address
+        }
+
+        const encodedCallbackData = ethers.utils.defaultAbiCoder.encode(
+            ['address', 'address', 'address'],
+            [token0.address, token1.address, smx.address]
+        );
+        
+        const expectedAmount = BigNumber.from(646710).mul(BigNumber.from(2).pow(96));
+
+        await pool.swap(
+            pool.address,
+            expectedAmount,
+            sqrtPriceLimitX96,
+            true,
+            encodedCallbackData
+        );
+
+    });
+    
+    
     
     
     
