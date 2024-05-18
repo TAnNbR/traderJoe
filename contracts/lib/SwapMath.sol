@@ -105,7 +105,7 @@ library SwapMath {
                 );
 
                 // 更新composion
-                compositionAfter=1;
+                compositionAfter=uint160(1<<FixedPoint96.RESOLUTION);
 
             }else{
 

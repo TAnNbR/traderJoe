@@ -40,15 +40,15 @@ describe("test Swap", function () {
         await token0.deployed();
         await token1.deployed();
         
-        //console.log();
-        //console.log("smx address:",smx.address);
-        //console.log("token0 address:",token0.address);
-        //console.log("token1 address:",token1.address);
+        // console.log();
+        // console.log("smx address:",smx.address);
+        // console.log("token0 address:",token0.address);
+        // console.log("token1 address:",token1.address);
     });
 
     it("pool deploy", async function () {
-        // 如果库合约设置为 public ，那么需要先部署再链接
-        /*
+
+        /* 如果库合约设置为 public ，那么需要先部署再链接
         const TickMath = await ethers.getContractFactory("TickMath");
         const tickMath = await TickMath.deploy();
         await tickMath.deployed();
@@ -80,8 +80,6 @@ describe("test Swap", function () {
             currentBin
             );
         await pool.deployed();
-        
-        // const slot = await pool.slot();
 
     });
 
@@ -96,6 +94,11 @@ describe("test Swap", function () {
     it("smx set approval for manager",async function () {
         await token0.setApprovalForAll(manager.address,true);
         await token1.setApprovalForAll(manager.address,true);
+    });
+
+    it("smx set approval for pool",async function () {
+        await token0.setApprovalForAll(pool.address,true);
+        await token1.setApprovalForAll(pool.address,true);
     });
 
     it("mint 1000000000 to smx",async function(){
@@ -181,7 +184,7 @@ describe("test Swap", function () {
         let balance0
         let balance1
         
-        //currentBin
+        // currentBin
         await manager.mint(
             pool.address,
             currentBin,
@@ -218,12 +221,12 @@ describe("test Swap", function () {
         await getAmount(negtiveBin);
     });
     
-    
+    /*
     it("test swap : need x",async function(){
         // 挂限价单部分成交
-        // const sqrtPriceLimitX96 = BigNumber.from(5).mul(BigNumber.from(2).pow(96));
-        let sqrtPriceLimitX96 = BigNumber.from("189156513964411864089943343104");
+        const sqrtPriceLimitX96 = BigNumber.from("189156513964411864089943343104");
         console.log("           limitPrice= ",sqrtPriceLimitX96.toString());
+
         // console.log("           slot= ",await pool.slot());
 
         // 注意到 swap 的参数是 => bytes calldata data 是字节类型，而前面的mint里是结构体类型
@@ -253,9 +256,9 @@ describe("test Swap", function () {
     
     it("test swap : need y",async function(){
         // 挂限价单部分成交
-        // const sqrtPriceLimitX96 = BigNumber.from(5).mul(BigNumber.from(2).pow(96));
-        let sqrtPriceLimitX96 = BigNumber.from("108456325028528675187087900672");
+        const sqrtPriceLimitX96 = BigNumber.from("108456325028528675187087900672");
         console.log("           limitPrice= ",sqrtPriceLimitX96.toString());
+
         // console.log("           slot= ",await pool.slot());
 
         // 注意到 swap 的参数是 => bytes calldata data 是字节类型，而前面的mint里是结构体类型
@@ -270,7 +273,11 @@ describe("test Swap", function () {
             [token0.address, token1.address, smx.address]
         );
         
-        const expectedAmount = BigNumber.from(646710).mul(BigNumber.from(2).pow(96));
+        // enough
+        // const expectedAmount = BigNumber.from(646710).mul(BigNumber.from(2).pow(96));
+
+        // not enough
+        const expectedAmount = BigNumber.from(6000000).mul(BigNumber.from(2).pow(96));
 
         await pool.swap(
             pool.address,
@@ -282,7 +289,72 @@ describe("test Swap", function () {
 
     });
     
+    it("test swap : need x",async function(){
+        // 挂限价单部分成交
+        const sqrtPriceLimitX96 = BigNumber.from("309156513964411864089943343104");
+        console.log("           limitPrice= ",sqrtPriceLimitX96.toString());
+
+        // console.log("           slot= ",await pool.slot());
+
+        // 注意到 swap 的参数是 => bytes calldata data 是字节类型，而前面的mint里是结构体类型
+        const callbackData = {
+            token0: token0.address,
+            token1: token1.address,
+            payer: smx.address
+        }
+
+        const encodedCallbackData = ethers.utils.defaultAbiCoder.encode(
+            ['address', 'address', 'address'],
+            [token0.address, token1.address, smx.address]
+        );
+        
+        // enough
+        // const expectedAmount = BigNumber.from(1063355).mul(BigNumber.from(2).pow(96));
+        
+        // not enough
+        const expectedAmount = BigNumber.from(6000000).mul(BigNumber.from(2).pow(96));
+
+        await pool.swap(
+            pool.address,
+            expectedAmount,
+            sqrtPriceLimitX96,
+            false,
+            encodedCallbackData
+        );
+
+    });
+    */
+
     
+    it("test manager swap : 流出 x",async function(){
+        // 挂限价单部分成交
+        const sqrtPriceLimitX96 = BigNumber.from("189156513964411864089943343104");
+        console.log("           limitPrice= ",sqrtPriceLimitX96.toString());
+
+        // 注意到 swap 的参数是 => bytes calldata data 是字节类型，而前面的mint里是结构体类型
+        const callbackData = {
+            token0: token0.address,
+            token1: token1.address,
+            payer: smx.address
+        }
+
+        const encodedCallbackData = ethers.utils.defaultAbiCoder.encode(
+            ['address', 'address', 'address'],
+            [token0.address, token1.address, smx.address]
+        );
+        
+        const expectedAmount = BigNumber.from(313355).mul(BigNumber.from(2).pow(96));
+
+        await manager.swap(
+            pool.address,
+            expectedAmount,
+            sqrtPriceLimitX96,
+            false,
+            encodedCallbackData
+        );
+        
+   });
+   
     
     
     

@@ -1,7 +1,7 @@
 const {expect}=require("chai");
 const {BigNumber}=require("ethers");
 
-//测试前要改成public
+// 测试前要改成public
 describe("test SwapMath",function(){
     let swapMath;
     let nextPrice,compositionAfter,amount0,amount1;
@@ -50,46 +50,6 @@ describe("test SwapMath",function(){
         console.log("compositionAfter=",compositionAfter.toString());
         console.log("amountIn=",amount0.toString());
         console.log("amountOut=",amount1.toString());
-       
-        /*
-        composition=oneElevenX96;
-        amountRemain=tenX96;
-        [nextPrice,compositionAfter,amount0,amount1] = await swapMath.computeSwap(
-            10,
-            110,
-            composition,
-            15,
-            false,
-            amountRemain
-        );
-        amount0 = amount0.div(ethers.BigNumber.from(2).pow(exponent));
-        amount1 = amount1.div(ethers.BigNumber.from(2).pow(exponent));
-        console.log("nextPrice=",nextPrice);
-        console.log("compositionAfter=",compositionAfter);
-        console.log("amountIn=",amount0);
-        console.log("amountOut=",amount1);
-        console.log();
-        */
-        /*
-        console.log("流出y");
-        composition=oneElevenX96;
-        amountRemain=oneHundredX96;
-        [nextPrice,compositionAfter,amount0,amount1] = await swapMath.computeSwap(
-            10,
-            110,
-            composition,
-            5,
-            true,
-            amountRemain
-        );
-        amount0 = amount0.div(ethers.BigNumber.from(2).pow(exponent));
-        amount1 = amount1.div(ethers.BigNumber.from(2).pow(exponent));
-        console.log("nextPrice=",nextPrice);
-        console.log("compositionAfter=",compositionAfter);
-        console.log("amountIn=",amount0);
-        console.log("amountOut=",amount1);
-        console.log();
-        */
     });
 
     it("test in the edge,composition = 0",async function(){

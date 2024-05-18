@@ -29,6 +29,21 @@ contract JoeSwapManager{
         );
     }
 
+    function swap(
+        address pool_address,
+        uint256 expectedAmount, // X96
+        uint256 limitPrice, // X96
+        bool zeroforone,
+        bytes calldata data
+    ) public returns(uint256 amount0,uint256 amount1){
+        return JoeSwapPool(pool_address).swap(
+            expectedAmount, // X96
+            limitPrice, // X96
+            zeroforone,    
+            data
+        );
+    }
+
     function JoeSwapMintCallback(
         int32 target_bin,
         uint256 amount0,
@@ -46,12 +61,7 @@ contract JoeSwapManager{
 
         amount0=amount0>>FixedPoint96.RESOLUTION;
         amount1=amount1>>FixedPoint96.RESOLUTION;
-        //_extra=extra;
-        /*
-        require(extra.token0==0xEf9f1ACE83dfbB8f559Da621f4aEA72C6EB10eBf,"token0 error");
-        require(extra.token1==0x0498B7c793D7432Cd9dB27fb02fc9cfdBAfA1Fd3,"token1 error");
-        require(extra.payer==0x5B38Da6a701c568545dCfcB03FcB875f56beddC4,"payer error");
-        */
+
         //amount没问题
         //要么是extra.payer的问题 没问题
         //要么是target_bin的问题 没问题
@@ -70,7 +80,58 @@ contract JoeSwapManager{
             amount1,
             data
         );
+    }
+
+    function JoeSwapCallBack(
+        uint256[] memory ids,
+        uint256[] memory amountsOfToken0,
+        uint256[] memory amountsOfToken1,
+        bytes memory data,
+        bool zeroForOne
+    ) public {
+        JoeSwapPool.CallBackData memory extra= abi.decode(
+            data,
+            (JoeSwapPool.CallBackData)
+        );
+        
+        // 流出 y 或 流出 x
+        if(zeroForOne){
+            // x : payer => pool
+            IERC1155(extra.token0).safeBatchTransferFrom(
+                extra.payer,
+                msg.sender,
+                ids,
+                amountsOfToken0,
+                data
+            );
+            // y : pool => payer
+            IERC1155(extra.token1).safeBatchTransferFrom(
+                msg.sender,
+                extra.payer,
+                ids,
+                amountsOfToken1,
+                data
+            );
+        }else{
+            // x : pool => payer
+            IERC1155(extra.token0).safeBatchTransferFrom(
+                msg.sender,
+                extra.payer,
+                ids,
+                amountsOfToken0,
+                data
+            );
+            // y : payer => pool
+            IERC1155(extra.token1).safeBatchTransferFrom(
+                extra.payer,
+                msg.sender,
+                ids,
+                amountsOfToken1,
+                data
+            );
+        }
 
     }
+
 
 }

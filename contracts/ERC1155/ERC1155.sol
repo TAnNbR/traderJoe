@@ -8,6 +8,8 @@ import "./Address.sol";
 import "./String.sol";
 import "./IERC165.sol";
 
+import "hardhat/console.sol";
+
 /*
 在ERC1155标准中，用户通常需要通过智能合约来调用代币。
 不过，如果想要在没有智能合约的情况下直接与ERC1155代币交互，可能需要使用钱包软件或其他工具。
@@ -108,7 +110,7 @@ contract ERC1155 is IERC165, IERC1155, IERC1155MetadataURI {
 
         //调用者
         address operator = msg.sender;
-
+        
         // 调用者是持有者或调用者被授权
         // 这里的逻辑就有点奇怪了，这里变成了 payer => manager
         // 但是其实是符合设计原则的，我们委托manager合约作为我们的用户接口（操作代理）
@@ -178,6 +180,8 @@ contract ERC1155 is IERC165, IERC1155, IERC1155MetadataURI {
             uint256 amount = amounts[i];
 
             uint256 fromBalance = _balances[id][from];
+            console.log("           [DEBUG : ERC1155]: frombalance = ",fromBalance); // debug
+            console.log("           [DEBUG : ERC1155]: amount = ",amount); // debug
             require(fromBalance >= amount, "ERC1155: insufficient balance for transfer");
             unchecked {
                 _balances[id][from] = fromBalance - amount;

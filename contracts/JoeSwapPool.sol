@@ -10,7 +10,9 @@ import "./lib/Math.sol";
 import "./lib/SwapMath.sol";
 
 import "./interfaces/IJoeSwapMintCallback.sol";
+import "./interfaces/IJoeSwapCallBack.sol";
 import "./interfaces/IERC1155Receiver.sol";
+import "./interfaces/IERC1155.sol";
 
 import "hardhat/console.sol";
 
@@ -83,6 +85,12 @@ contract JoeSwapPool {
     uint128 public liquidity;
 
     uint160 public composition;
+    
+
+    // 辅助批量转账数组
+    uint256[] tempIds;
+    uint256[] tempAmountsOfToken0;
+    uint256[] tempAmountsOfToken1;
 
     /**
      * @notice 初始化
@@ -193,7 +201,6 @@ contract JoeSwapPool {
     }
     
     function swap(
-        address recipient,
         uint256 expectedAmount, // X96
         uint256 limitPrice, // X96
         bool zeroforone,
@@ -202,12 +209,16 @@ contract JoeSwapPool {
         uint256 amount0,
         uint256 amount1
     ){
+        // 清空辅助数组
+        delete tempIds;
+        delete tempAmountsOfToken0;
+        delete tempAmountsOfToken1;
+
         Slot memory _slot=slot;
         uint128 _liquidity=liquidity;
-
-        bool validLimitPrice = zeroforone ? (limitPrice < _slot.pi && limitPrice >= MIN_PRICE)
-                                            : (limitPrice > _slot.pi && limitPrice <= MAX_PRICE);                                     
         
+        // 检验输入的限价是否有效
+        bool validLimitPrice = zeroforone ? (limitPrice < _slot.pi && limitPrice >= MIN_PRICE) : (limitPrice > _slot.pi && limitPrice <= MAX_PRICE);                                     
         require(validLimitPrice,"Invalid LimitPrice!");
 
         SwapState memory state=SwapState({
@@ -217,18 +228,13 @@ contract JoeSwapPool {
             amountBeenOut: 0,
             amountBeenIn: 0
         });
-        
-        /////////////////
-        //    while    //
-        /////////////////
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////                WHILE : TOTAL              //////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////
         while (expectedAmount>0 && ( zeroforone ? state.pi>=limitPrice : state.pi<=limitPrice )) {
             console.log(); // debug
-            console.log("           [DEBUG]: ************* round ***********"); // debug
-
-            bool theEdgeBin = bins[state.bin].initialized;
-            if(!theEdgeBin){
-                break;
-            }
+            console.log("           [DEBUG]: **************************************************** round **************************************************"); // debug
 
             Stepstate memory step;
             step.startPrice=state.pi;
@@ -245,6 +251,7 @@ contract JoeSwapPool {
             //    while : 流出 y   //
             ////////////////////////
                 while (pricePoint>=limitPrice) {
+                    console.log();
                     console.log("           [DEBUG]: ******** search execute *******"); // debug
                     console.log("           [DEBUG]:",uint256(int256(binPoint))); // debug
                     console.log("           [DEBUG]:",pricePoint); // debug
@@ -253,23 +260,18 @@ contract JoeSwapPool {
                     uint256 nextPricePoint=TickMath.getSqrtRatioAtTick(int24(_nextBin-(1<<23)));
                     
                     console.log("           [DEBUG]: nextBin = ",uint256(int256(_nextBin))); // debug
-                    console.log("           [DEBUG]: nextPricePoint = ",nextPricePoint); // debug
-
-                    // require(_nextBin==8397125,"!=8397125"); 
+                    console.log("           [DEBUG]: nextPricePoint = ",nextPricePoint); // debug 
 
                     // 分两种情况、三种位置讨论
                     if(_forSure){
                         if(nextPricePoint<limitPrice){
                             console.log("           [DEBUG]: Sure: pricePoint<limitPrice"); // debug
                             break;
-                        }else if(nextPricePoint==limitPrice){
-                            console.log("           [DEBUG]: Sure: pricePoint==limitPrice"); // debug
+                        }else{
+                            console.log("           [DEBUG]: Sure: pricePoint>=limitPrice"); // debug
                             binPoint=_nextBin;
                             pricePoint=nextPricePoint;
                             break;
-                        }else{
-                            binPoint=_nextBin;
-                            pricePoint=nextPricePoint;
                         }
                     }else {
                         if(nextPricePoint>=limitPrice){
@@ -283,6 +285,7 @@ contract JoeSwapPool {
                             }else {
                                 binPoint=_nextBin-1;
                                 pricePoint=TickMath.getSqrtRatioAtTick(int24(binPoint-(1<<23)));
+
                             }
                         }else{
                             console.log("           [DEBUG]: Not Sure: pricePoint<limitPrice"); // debug
@@ -291,8 +294,8 @@ contract JoeSwapPool {
                         }
                     }
                 }
-            ////////////////////////////
-            //    end while : SMALL   //
+            /////////////////////////////
+            //    end while : 流出 y   //
             ////////////////////////////
 
             }else{
@@ -300,33 +303,39 @@ contract JoeSwapPool {
             //    while : 流出 x   //
             ////////////////////////
                 while (pricePoint<=limitPrice) {
+                    console.log();
                     console.log("           [DEBUG]: ******** search execute *******"); // debug
-                    // console.log(uint256 p0); 需要转换成uint256来打印
                     console.log("           [DEBUG]:",uint256(int256(binPoint))); // debug
                     console.log("           [DEBUG]:",pricePoint); // debug
 
                     (_nextBin,_forSure)=indextree.nextInitializedBinWithinOneWord(binPoint,1,zeroforone);
                     uint256 nextPricePoint=TickMath.getSqrtRatioAtTick(int24(_nextBin-(1<<23)));
                 
-                    // console.log("           [DEBUG]:",_forSure); // debug
                     // 分两种情况、三种位置讨论
                     if(_forSure){
                         if(nextPricePoint>limitPrice){
                             console.log("           [DEBUG]: Sure: pricePoint>limitPrice"); // debug
                             break;
-                        }else if(nextPricePoint==limitPrice){
-                            console.log("           [DEBUG]: Sure: pricePoint==limitPrice"); // debug
+                        }else{
+                            console.log("           [DEBUG]: Sure: pricePoint<=limitPrice"); // debug
                             binPoint=_nextBin;
                             pricePoint=nextPricePoint;
                             break;
-                        }else{
-                            binPoint=_nextBin;
-                            pricePoint=nextPricePoint;
                         }
                     }else {
                         if(nextPricePoint<limitPrice){
+                            // 来到一个 Not Sure 的 bin : Initialized / Uninitialized
                             binPoint=_nextBin;
-                            pricePoint=nextPricePoint;
+                            bool haveLiquidity = bins[binPoint].initialized;
+                            if(haveLiquidity){
+                                pricePoint=TickMath.getSqrtRatioAtTick(int24(binPoint-(1<<23)));
+                                break;
+
+                            }else {
+                                binPoint=_nextBin+1;
+                                pricePoint=TickMath.getSqrtRatioAtTick(int24(binPoint-(1<<23)));
+
+                            }
                         }else{
                             console.log("           [DEBUG]: Not Sure: pricePoint>=limitPrice"); // debug
                             break;
@@ -334,25 +343,20 @@ contract JoeSwapPool {
                     }
 
                 }
-            /////////////////////////////
-            //    end while : SMALL    //
+            //////////////////////////////
+            //    end while : 流出 x    //
             /////////////////////////////
             }
-
-            console.log("           [DEBUG]: ********* out of search ********"); // debug
-            // if(!_forSure) revert("nextStep not sure!");
+            
+            console.log(); // debug
+            console.log("           [DEBUG]: ********* out of search *******"); // debug
 
             step.nextBin=binPoint;
             step.nextPrice=pricePoint;
             step.forSure=_forSure;
 
-            
-
-
-            // (step.nextBin,step.forSure)=indextree.nextInitializedBinWithinOneWord(binPoint,1,zeroforone);
-
-            // 遇到编译器堆栈深度超出时，可以使用结构体传参
             /**
+             * 遇到编译器堆栈深度超出时，可以使用结构体传参
              * SwapMath.ComputeSwapParams memory computeSwapParams = SwapMath.ComputeSwapParams ({
              *    currentPrice: step.startPrice,
              *    activeLquidity: state.active_liquidity,
@@ -363,7 +367,11 @@ contract JoeSwapPool {
              * });
              * ( state.pi , composition , step.amountIn , step.amountOut ) = SwapMath.computeSwap(computeSwapParams);
              */
+            
+            console.log("           [DEBUG]: step.startPrice | state.active_liquidity : ",step.startPrice,state.active_liquidity); //debug
+            console.log("           [DEBUG]: composition | step.nextPrice | expectedAmount : ",composition,step.nextPrice,expectedAmount); //debug
 
+            int32 preBin=state.bin;
            ( 
                 state.pi, // 这个返回值其实多余了
                 composition, 
@@ -393,50 +401,77 @@ contract JoeSwapPool {
             state.amountBeenOut+=step.amountOut;
             state.amountBeenIn+=step.amountIn;
             
-            console.log(
-                "           [DEBUG]: expectedAmount | state.amountBeenOut | state.amountBeenIn ",
-                expectedAmount,
-                state.amountBeenOut,
-                state.amountBeenIn
-            ); // debug
+            // 记录批量转账信息
+            tempIds.push(uint256(int256(preBin)));
+            uint256 nowIn;
+            uint256 nowOut;
+            (nowIn,nowOut)=zeroforone?(step.amountIn>>FixedPoint96.RESOLUTION,step.amountOut>>FixedPoint96.RESOLUTION)
+                                     :(step.amountOut>>FixedPoint96.RESOLUTION,step.amountIn>>FixedPoint96.RESOLUTION);
+            tempAmountsOfToken0.push(nowIn);
+            tempAmountsOfToken1.push(nowOut);
+
+            console.log("           [DEBUG]: step.amountOut | step.amountIn : ",step.amountOut,step.amountIn); // debug
+            console.log("           [DEBUG]: state.pi = ",   state.pi,"composition = ",composition); // debug
             
-            console.log(
-                "           [DEBUG]: state.pi = ",   
-                state.pi,
-                "composition = ",
-                composition
-            ); // debug
+            // 检查是否需要部分成交
+            int32 checkBin;
+            (checkBin,)=indextree.nextInitializedBinWithinOneWord(binPoint,1,zeroforone);
+            uint256 checkPrice=TickMath.getSqrtRatioAtTick(int24(checkBin-(1<<23)));
+            if(zeroforone?checkPrice<limitPrice:checkPrice>limitPrice){
+                break;
+            }
 
         }
-        //////////////////////////
-        //    end while : BIG   //
-        //////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////               END WHILE : TOTAL              /////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////
         
         console.log(); // debug
-        console.log("           [DEBUG]: ********* out of round ********"); // debug
-        console.log(
-            "           [DEBUG]: state.pi = ",   
-            state.pi,
-            "composition = ",
-            composition
-        ); // debug
+        console.log("           [DEBUG]: ************************************************ out of round ***********************************************"); // debug
+
+        // 初始化批量转账的数组
+        uint256[] memory ids = new uint256[](tempIds.length);
+        uint256[] memory amountsOfToken0= new uint256[](tempIds.length);
+        uint256[] memory amountsOfToken1= new uint256[](tempIds.length);
+
+        // 将辅助数组信息复制进转账数组内
+        for(uint i = 0; i < tempIds.length; i++){
+            console.log("           [DEBUG]: tempIds[i] | tempAmountsOfToken0[i] | tempAmountsOfToken1[i] = ",tempIds[i],tempAmountsOfToken0[i],tempAmountsOfToken1[i]); // debug
+            
+            ids[i] = tempIds[i];
+            amountsOfToken0[i] = tempAmountsOfToken0[i];
+            amountsOfToken1[i] = tempAmountsOfToken1[i];
+        }
+
+        // 执行转账
+        CallBackData memory extra= abi.decode(data,(JoeSwapPool.CallBackData));
+        IERC1155(extra.token0).setApprovalForAll(msg.sender,true);
+        IERC1155(extra.token1).setApprovalForAll(msg.sender,true);
+        IJoeSwapCallBack(msg.sender).JoeSwapCallBack(
+            ids,
+            amountsOfToken0,
+            amountsOfToken1,
+            data,
+            zeroforone
+        );
+
+        console.log("           [DEBUG]: state.pi = ",   state.pi,"composition = ",composition); // debug
 
         liquidity=state.active_liquidity;    
         slot.bin=state.bin;
         slot.pi=state.pi;
         (amount0,amount1) = zeroforone ? (state.amountBeenIn,state.amountBeenOut) : (state.amountBeenOut,state.amountBeenIn);
 
-        console.log(
-            "           [DEBUG]: amount0 = ",
-            amount0,
-            "amount1 = ",
-            amount1
-        ); // debug
+        console.log("           [DEBUG]: amount0 = ",amount0,"amount1 = ",amount1); // debug
 
+        
     }
     
     
-   
+    /**
+     * @dev 接受ERC1155安全转账`safeTransferFrom` 
+     *      需要返回 0xbc197c81 或 `bytes4(keccak256("onERC1155Received(address,address,uint256,uint256,bytes)"))`
+     */
     function onERC1155Received(
         address operator,
         address from,

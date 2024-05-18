@@ -44,8 +44,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/ERC1155/ERC1155.sol": {
-      "lastModificationDate": 1714541936072,
-      "contentHash": "54cbee7a22d74f1585234e97dfd22624",
+      "lastModificationDate": 1716016595119,
+      "contentHash": "f90465ab1286a284aa67ba689dd09ae8",
       "sourceName": "contracts/ERC1155/ERC1155.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -83,7 +83,8 @@
         "./IERC1155MetadataURI.sol",
         "./Address.sol",
         "./String.sol",
-        "./IERC165.sol"
+        "./IERC165.sol",
+        "hardhat/console.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
@@ -309,8 +310,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/JoeSwapManager.sol": {
-      "lastModificationDate": 1715046637396,
-      "contentHash": "fcf5afba57051b01f47141094e442625",
+      "lastModificationDate": 1716010233480,
+      "contentHash": "e90367a49df39b90065345e372d94618",
       "sourceName": "contracts/JoeSwapManager.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -354,8 +355,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/JoeSwapPool.sol": {
-      "lastModificationDate": 1715743647886,
-      "contentHash": "329e4dfc4d1f3f36a7a329e5eac4e4f0",
+      "lastModificationDate": 1716016909159,
+      "contentHash": "8e46663f54034cdb64b08647e98a4029",
       "sourceName": "contracts/JoeSwapPool.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -396,7 +397,9 @@
         "./lib/Math.sol",
         "./lib/SwapMath.sol",
         "./interfaces/IJoeSwapMintCallback.sol",
+        "./interfaces/IJoeSwapCallBack.sol",
         "./interfaces/IERC1155Receiver.sol",
+        "./interfaces/IERC1155.sol",
         "hardhat/console.sol"
       ],
       "versionPragmas": [
@@ -493,8 +496,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/lib/Position.sol": {
-      "lastModificationDate": 1714543309872,
-      "contentHash": "f0976864f32ebd5d6e08e25f732e1ad1",
+      "lastModificationDate": 1716005789241,
+      "contentHash": "d24bf72bbaef1192e33e9360f7f73f61",
       "sourceName": "contracts/lib/Position.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -878,8 +881,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/lib/SwapMath.sol": {
-      "lastModificationDate": 1715049688824,
-      "contentHash": "386c314befe83d9df9c6f706b8886839",
+      "lastModificationDate": 1715846662197,
+      "contentHash": "2c7ebe957b7dea6a7c85749098398202",
       "sourceName": "contracts/lib/SwapMath.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -1003,6 +1006,48 @@
       ],
       "artifacts": [
         "console"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/interfaces/IJoeSwapCallBack.sol": {
+      "lastModificationDate": 1716008700661,
+      "contentHash": "687097fd487cfeafd955b913df33e973",
+      "sourceName": "contracts/interfaces/IJoeSwapCallBack.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "IJoeSwapCallBack"
       ]
     }
   }
