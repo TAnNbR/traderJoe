@@ -180,8 +180,8 @@ contract ERC1155 is IERC165, IERC1155, IERC1155MetadataURI {
             uint256 amount = amounts[i];
 
             uint256 fromBalance = _balances[id][from];
-            console.log("           [DEBUG : ERC1155]: frombalance = ",fromBalance); // debug
-            console.log("           [DEBUG : ERC1155]: amount = ",amount); // debug
+            console.log("           [DEBUG:ERC1155]: frombalance = ",fromBalance); // debug
+            console.log("           [DEBUG:ERC1155]: amount = ",amount); // debug
             require(fromBalance >= amount, "ERC1155: insufficient balance for transfer");
             unchecked {
                 _balances[id][from] = fromBalance - amount;

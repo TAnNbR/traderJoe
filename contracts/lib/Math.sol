@@ -40,7 +40,7 @@ library Math{
     function calcAmount0CurrentDelta(
         uint128 liquidity,
         uint160 composition, // X96
-        uint256 target_price
+        uint256 target_price // X96
     ) internal pure returns (
         uint256 amount0 // X96
     ) {
@@ -51,7 +51,7 @@ library Math{
         amount0 = mulDivRoundingUp(
             (uint256(liquidity) << FixedPoint96.RESOLUTION),
             (OneX96-composition),
-            target_price << FixedPoint96.RESOLUTION
+            target_price
         );    
     }
     
@@ -105,14 +105,14 @@ library Math{
     
 
     function calcCompositionAtAmount0(
-        uint256 price,
+        uint256 price, // X96
         uint128 liquidity,
         uint256 deltaAmount0 // X96
     ) internal pure returns(
         uint160 deltaComposition // X96
     ){
         deltaComposition = uint160(mulDivRoundingUp(
-            (price<<FixedPoint96.RESOLUTION),
+            price,
             deltaAmount0,
             (liquidity<<FixedPoint96.RESOLUTION)
         ));

@@ -177,7 +177,9 @@ contract JoeSwapPool {
             );
         }else{
             _composition=uint160(1<<FixedPoint96.RESOLUTION); 
-            amount1=Math.calcAmount1Inactive(amount);
+            amount1=Math.calcAmount1Inactive(
+                amount
+            );
         }
 
         // 修改bins
@@ -234,7 +236,7 @@ contract JoeSwapPool {
         //////////////////////////////////////////////////////////////////////////////////////////
         while (expectedAmount>0 && ( zeroforone ? state.pi>=limitPrice : state.pi<=limitPrice )) {
             console.log(); // debug
-            console.log("           [DEBUG]: **************************************************** round **************************************************"); // debug
+            console.log("           [DEBUG]: **************************************************** Round **************************************************"); // debug
 
             Stepstate memory step;
             step.startPrice=state.pi;
@@ -252,7 +254,7 @@ contract JoeSwapPool {
             ////////////////////////
                 while (pricePoint>=limitPrice) {
                     console.log();
-                    console.log("           [DEBUG]: ******** search execute *******"); // debug
+                    console.log("           [DEBUG]: ******** Search Execute *******"); // debug
                     console.log("           [DEBUG]:",uint256(int256(binPoint))); // debug
                     console.log("           [DEBUG]:",pricePoint); // debug
 
@@ -304,7 +306,7 @@ contract JoeSwapPool {
             ////////////////////////
                 while (pricePoint<=limitPrice) {
                     console.log();
-                    console.log("           [DEBUG]: ******** search execute *******"); // debug
+                    console.log("           [DEBUG]: ******** Search Execute *******"); // debug
                     console.log("           [DEBUG]:",uint256(int256(binPoint))); // debug
                     console.log("           [DEBUG]:",pricePoint); // debug
 
@@ -349,7 +351,7 @@ contract JoeSwapPool {
             }
             
             console.log(); // debug
-            console.log("           [DEBUG]: ********* out of search *******"); // debug
+            console.log("           [DEBUG]: ********* Out Of Search *******"); // debug
 
             step.nextBin=binPoint;
             step.nextPrice=pricePoint;
@@ -378,10 +380,10 @@ contract JoeSwapPool {
                 step.amountIn, 
                 step.amountOut 
             ) = SwapMath.computeSwap(
-                (step.startPrice>>FixedPoint96.RESOLUTION),
+                step.startPrice, // X96
                 state.active_liquidity,
                 composition, // X96
-                (step.nextPrice>>FixedPoint96.RESOLUTION),
+                step.nextPrice, // X96
                 zeroforone,
                 expectedAmount // X96
             );
@@ -389,7 +391,7 @@ contract JoeSwapPool {
             // 是否要更新流动性
             // 因为上面返回的state.pi不是X96，所以需要转化
             // 但是如果直接转换会有精度损失，所以直接用精确的step.price赋值
-            if(state.pi == (step.nextPrice>>FixedPoint96.RESOLUTION) ){
+            if(state.pi == step.nextPrice){
                 state.pi=step.nextPrice;
                 state.bin=step.nextBin;
                 state.active_liquidity=bins[state.bin].liquidity;
@@ -427,7 +429,7 @@ contract JoeSwapPool {
         //////////////////////////////////////////////////////////////////////////////////////////
         
         console.log(); // debug
-        console.log("           [DEBUG]: ************************************************ out of round ***********************************************"); // debug
+        console.log("           [DEBUG]: ************************************************ Out Of Round ***********************************************"); // debug
 
         // 初始化批量转账的数组
         uint256[] memory ids = new uint256[](tempIds.length);
@@ -462,6 +464,8 @@ contract JoeSwapPool {
         slot.pi=state.pi;
         (amount0,amount1) = zeroforone ? (state.amountBeenIn,state.amountBeenOut) : (state.amountBeenOut,state.amountBeenIn);
 
+        console.log("           [DEBUG]: slot.pi = ",slot.pi);
+        console.log("           [DEBUG]: slot.bin = ",uint256(int256(slot.bin)));
         console.log("           [DEBUG]: amount0 = ",amount0,"amount1 = ",amount1); // debug
 
         

@@ -3,6 +3,8 @@ pragma solidity ^0.8.14;
 
 import "./Math.sol";
 
+import "hardhat/console.sol";
+
 library SwapMath {
 
     struct ComputeSwapParams {
@@ -15,10 +17,10 @@ library SwapMath {
     }
 
     function computeSwap( 
-        uint256 currentPrice,
+        uint256 currentPrice, // X96
         uint128 activeLquidity,
         uint160 activeComposition, // X96
-        uint256 nextPrice,
+        uint256 nextPrice, // X96
         bool zeroForOne,
         uint256 amountRemain // X96
     ) internal pure returns(
@@ -42,10 +44,9 @@ library SwapMath {
             amountOut=Math.calcAmount0CurrentDelta(
                 activeLquidity,
                 activeComposition,
-                currentPrice
+                currentPrice // X96
             );
         }
-        
 
         // 富余，在当前pi内跳转，更新composition
         // 刚好或不足，跳边界
@@ -63,7 +64,7 @@ library SwapMath {
                 amountIn = Math.calcAmount0CurrentDelta(
                     activeLquidity,
                     (OneX96-deltaComposition),
-                    currentPrice
+                    currentPrice // X96
                 );
 
                 // 更新composion
@@ -73,7 +74,7 @@ library SwapMath {
 
                 // 流出x
                 deltaComposition = Math.calcCompositionAtAmount0(
-                    currentPrice,
+                    currentPrice, // X96
                     activeLquidity,
                     amountOut
                 );
@@ -97,7 +98,7 @@ library SwapMath {
                 amountIn=Math.calcAmount0CurrentDelta(
                     activeLquidity,
                     (OneX96-activeComposition),
-                    currentPrice
+                    currentPrice  // X96
                 );
                 amountOut=Math.calcAmount1CurrentDelta(
                     activeLquidity,
@@ -118,7 +119,7 @@ library SwapMath {
                 amountOut=Math.calcAmount0CurrentDelta(
                     activeLquidity,
                     activeComposition,
-                    currentPrice
+                    currentPrice  // X96
                 );
 
                 // 更新composion

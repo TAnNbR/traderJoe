@@ -8,7 +8,7 @@ describe("test TickMath",async function(){
         const p0 = await func.getSqrtRatioAtTick(8517);
         const p1 = BigNumber.from(p0).div(BigNumber.from(2).pow(96));
         //const p2 = BigNumber.from(p1).div(BigNumber.from(2).pow(96));
-        console.log(p1.toString());
+        console.log(p0.toString());
  
     });
 })

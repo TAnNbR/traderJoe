@@ -44,8 +44,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/ERC1155/ERC1155.sol": {
-      "lastModificationDate": 1716016595119,
-      "contentHash": "f90465ab1286a284aa67ba689dd09ae8",
+      "lastModificationDate": 1716094449301,
+      "contentHash": "bb674e107ee37fe84519c9bf2b62a7aa",
       "sourceName": "contracts/ERC1155/ERC1155.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -310,7 +310,7 @@
       ]
     },
     "/home/smx/traderJoe/contracts/JoeSwapManager.sol": {
-      "lastModificationDate": 1716010233480,
+      "lastModificationDate": 1716094573401,
       "contentHash": "e90367a49df39b90065345e372d94618",
       "sourceName": "contracts/JoeSwapManager.sol",
       "solcConfig": {
@@ -355,8 +355,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/JoeSwapPool.sol": {
-      "lastModificationDate": 1716016909159,
-      "contentHash": "8e46663f54034cdb64b08647e98a4029",
+      "lastModificationDate": 1716095558861,
+      "contentHash": "a829983a71205cf778aa56d943a4a319",
       "sourceName": "contracts/JoeSwapPool.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -580,7 +580,7 @@
       ]
     },
     "/home/smx/traderJoe/contracts/lib/TickMath.sol": {
-      "lastModificationDate": 1715046389416,
+      "lastModificationDate": 1716093060472,
       "contentHash": "c9817382d54cf451f5526a828963ca73",
       "sourceName": "contracts/lib/TickMath.sol",
       "solcConfig": {
@@ -666,8 +666,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/lib/Math.sol": {
-      "lastModificationDate": 1715046923506,
-      "contentHash": "7514e469727fc96c0d04269c089a6f34",
+      "lastModificationDate": 1716093422622,
+      "contentHash": "21ebc4d995cb373283937408819da1e2",
       "sourceName": "contracts/lib/Math.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -881,8 +881,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/lib/SwapMath.sol": {
-      "lastModificationDate": 1715846662197,
-      "contentHash": "2c7ebe957b7dea6a7c85749098398202",
+      "lastModificationDate": 1716094048962,
+      "contentHash": "13be5015c625eb4ed26cdc576cf81d36",
       "sourceName": "contracts/lib/SwapMath.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -915,7 +915,8 @@
         }
       },
       "imports": [
-        "./Math.sol"
+        "./Math.sol",
+        "hardhat/console.sol"
       ],
       "versionPragmas": [
         "^0.8.14"
