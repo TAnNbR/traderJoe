@@ -1,14 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity >=0.5.0;
 
-/// @title BitMath
-/// @dev 此库提供计算无符号整数的位属性的功能
+
 library BitMath {
-    /// @notice 返回数字的最高有效位的索引，其中最低有效位在索引0处，最高有效位在指数255处
-    /// @dev 函数满足属性 :
-    ///     x >= 2**mostSignificantBit(x) and x < 2**(mostSignificantBit(x)+1)
-    /// @param x the value for which to compute the most significant bit, must be greater than 0
-    /// @return r the index of the most significant bit
+    
+    // 二分查找思想
     function mostSignificantBit(uint256 x) internal pure returns (uint8 r) {
         require(x > 0);
 

@@ -356,23 +356,10 @@ contract JoeSwapPool {
             step.nextBin=binPoint;
             step.nextPrice=pricePoint;
             step.forSure=_forSure;
-
-            /**
-             * 遇到编译器堆栈深度超出时，可以使用结构体传参
-             * SwapMath.ComputeSwapParams memory computeSwapParams = SwapMath.ComputeSwapParams ({
-             *    currentPrice: step.startPrice,
-             *    activeLquidity: state.active_liquidity,
-             *    activeComposition: composition,
-             *    nextPrice: step.nextPrice,
-             *    zeroForOne: zeroforone,
-             *    amountRemain: expectedAmount 
-             * });
-             * ( state.pi , composition , step.amountIn , step.amountOut ) = SwapMath.computeSwap(computeSwapParams);
-             */
             
             console.log("           [DEBUG]: step.startPrice | state.active_liquidity : ",step.startPrice,state.active_liquidity); //debug
             console.log("           [DEBUG]: composition | step.nextPrice | expectedAmount : ",composition,step.nextPrice,expectedAmount); //debug
-
+            
             int32 preBin=state.bin;
            ( 
                 state.pi, // 这个返回值其实多余了

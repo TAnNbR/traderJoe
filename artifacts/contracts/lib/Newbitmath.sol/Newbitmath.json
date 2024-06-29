@@ -1,0 +1,10 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Newbitmath",
+  "sourceName": "contracts/lib/Newbitmath.sol",
+  "abi": [],
+  "bytecode": "0x608060405234601a57604051603f6020823930815050603f90f35b600080fdfe6080604052600080fdfea264697066735822122093712126aeb9f6bd24372a9e5570caf96a23aaa280e7a18970e219f60ad4c25c64736f6c63430008180033",
+  "deployedBytecode": "0x6080604052600080fdfea264697066735822122093712126aeb9f6bd24372a9e5570caf96a23aaa280e7a18970e219f60ad4c25c64736f6c63430008180033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

@@ -355,7 +355,7 @@
       ]
     },
     "/home/smx/traderJoe/contracts/JoeSwapPool.sol": {
-      "lastModificationDate": 1716095558861,
+      "lastModificationDate": 1716203378702,
       "contentHash": "a829983a71205cf778aa56d943a4a319",
       "sourceName": "contracts/JoeSwapPool.sol",
       "solcConfig": {
@@ -580,8 +580,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/lib/TickMath.sol": {
-      "lastModificationDate": 1716093060472,
-      "contentHash": "c9817382d54cf451f5526a828963ca73",
+      "lastModificationDate": 1718449707711,
+      "contentHash": "0c9f7cf5c4f95524b4fa11da10940d13",
       "sourceName": "contracts/lib/TickMath.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -622,7 +622,7 @@
       ]
     },
     "/home/smx/traderJoe/contracts/lib/Indextree.sol": {
-      "lastModificationDate": 1715741701406,
+      "lastModificationDate": 1719212698529,
       "contentHash": "4df32f40414c39e4a7161ea12f7e6264",
       "sourceName": "contracts/lib/Indextree.sol",
       "solcConfig": {
@@ -797,8 +797,8 @@
       ]
     },
     "/home/smx/traderJoe/contracts/lib/BitMath.sol": {
-      "lastModificationDate": 1714979737680,
-      "contentHash": "c72852a7672ed364be472461b5eaafde",
+      "lastModificationDate": 1719220088128,
+      "contentHash": "5fe3ffd3936a2246793668cc70110941",
       "sourceName": "contracts/lib/BitMath.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -1049,6 +1049,139 @@
       ],
       "artifacts": [
         "IJoeSwapCallBack"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/lib/TestTree.sol": {
+      "lastModificationDate": 1719555989700,
+      "contentHash": "bf4570180e0ff2d77674efbb9fa749e9",
+      "sourceName": "contracts/lib/TestTree.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./NewIndexTree.sol",
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "TestTree"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/lib/NewIndexTree.sol": {
+      "lastModificationDate": 1719556550200,
+      "contentHash": "9b6743a53f28c9f3692d213eb14d2451",
+      "sourceName": "contracts/lib/NewIndexTree.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Newbitmath.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "NewIndexTree"
+      ]
+    },
+    "/home/smx/traderJoe/contracts/lib/Newbitmath.sol": {
+      "lastModificationDate": 1719540939958,
+      "contentHash": "7f2c02319551b099bc9ae1d6ffa3dd1d",
+      "sourceName": "contracts/lib/Newbitmath.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.14"
+      ],
+      "artifacts": [
+        "Newbitmath"
       ]
     }
   }
