@@ -1,0 +1,10 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "IndexTree",
+  "sourceName": "contracts/lib/IndexTree.sol",
+  "abi": [],
+  "bytecode": "0x608060405234601a57604051603f6020823930815050603f90f35b600080fdfe6080604052600080fdfea264697066735822122084f834fca615ab302b5a6c40ea3b73ba576b1847ac3166ec8f8d2530cad9bbf764736f6c63430008180033",
+  "deployedBytecode": "0x6080604052600080fdfea264697066735822122084f834fca615ab302b5a6c40ea3b73ba576b1847ac3166ec8f8d2530cad9bbf764736f6c63430008180033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

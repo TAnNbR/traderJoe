@@ -1,0 +1,10 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Bins",
+  "sourceName": "contracts/lib/Bins.sol",
+  "abi": [],
+  "bytecode": "0x608060405234601a57604051603f6020823930815050603f90f35b600080fdfe6080604052600080fdfea264697066735822122024ae1da94b2b6dd6fd225d18f2070f5e97a2d9beb5cf106fc688518b1cc833b464736f6c63430008180033",
+  "deployedBytecode": "0x6080604052600080fdfea264697066735822122024ae1da94b2b6dd6fd225d18f2070f5e97a2d9beb5cf106fc688518b1cc833b464736f6c63430008180033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
