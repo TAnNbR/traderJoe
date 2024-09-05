@@ -13,6 +13,7 @@ import "./interfaces/IPoolMintCallback.sol";
 import "./interfaces/IPoolSwapCallback.sol";
 import "./interfaces/IPool.sol";
 import "./interfaces/IFlashCallback.sol";
+import "./interfaces/IDeployer.sol";
 
 import {ERC1155Holder} from "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import {IERC1155} from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
@@ -64,22 +65,26 @@ contract Pool is IPool,ERC1155Holder {
         uint32  bin;
     }
 
-
     // bins上下界 [ -2^19 + 2^23 , 2^19 + 2^23 ]
     uint32 internal constant MAX_BIN=9275880;
     uint32 internal constant MIN_BIN=7501336;
 
     uint256 internal constant MIN_PRICE = 4295128739;
     uint256 internal constant MAX_PRICE = 1461446703485210103287273052203988822378723970342;
-
+    
+    address public immutable factory;
     address public immutable token0;
     address public immutable token1;
+    uint256 public immutable tickSpacing;
 
     mapping (uint32=>Bins.Info) bins;
     mapping (bytes32=>Position.Info) positions;
     IndexTree.BigTree indextree;
-
-    // 活跃流动性，数量级是uint128，L的数量级不需要很大，因为现实中不会有太大数量级的流动性
+    
+    /**
+     * @param liquidity   活跃流动性，数量级是uint128，L的数量级不需要很大，因为现实中不会有太大数量级的流动性
+     * @param composition 当前容量，初始值为`0`
+     */
     uint128 public liquidity;
     uint160 public composition;
     
@@ -90,22 +95,18 @@ contract Pool is IPool,ERC1155Holder {
     uint256[] tempAmountsOfToken0;
     uint256[] tempAmountsOfToken1;
 
-    /**
-     * @notice 初始化
-     * @param token0_ 资产对地址
-     * @param token1_ 资产对地址
-     * @param _pi 实时价格
-     * @param _bin 实时区间
-     */
-    constructor(
-        address token0_,
-        address token1_,
-        uint256 _pi,
+    constructor(){  
+        (factory,token0,token1,tickSpacing) = IDeployer(msg.sender).parameter();
+    }
+
+    function initialize(
+        uint256 _price,
         uint32  _bin
-    ){  
-        token0 = token0_; 
-        token1 = token1_;
-        slot   = Slot({pi:_pi,bin:_bin});
+    ) public{
+        slot = Slot({
+            pi  : _price,
+            bin : _bin
+        });
     }
 
     function mint(
@@ -218,7 +219,7 @@ contract Pool is IPool,ERC1155Holder {
             amountBeenIn: 0
         });
 
-        /********************************************  one step  ***************************************************/
+        //====================================  one step  =======================================//
         while (expectedAmount>0 && ( zeroforone ?  state.pi<=limitPrice : state.pi>=limitPrice )) {
             console.log("bin =",state.bin);
             
@@ -331,7 +332,7 @@ contract Pool is IPool,ERC1155Holder {
             state.active_liquidity = bins[state.bin].liquidity;
 
         }
-        /********************************************  step end ***************************************************/
+        //====================================  step end  =======================================//
 
 
         // 初始化转账数组
